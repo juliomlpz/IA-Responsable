@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Responsable | Ética en la IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f1f5f9;
+        color: #0f172a;
+        line-height: 1.6;
+    }
+
+    /* ========== NAVBAR COMPLETA ========== */
+    .navbar {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .nav-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 0;
+    }
+
+    .logo i {
+        font-size: 2rem;
+        color: #818cf8;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 700;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 0.5rem;
+        list-style: none;
+        flex-wrap: wrap;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+        color: #e2e8f0;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .nav-link i {
+        font-size: 0.9rem;
+    }
+
+    .nav-link:hover {
+        background: rgba(129, 140, 248, 0.2);
+        color: white;
+    }
+
+    .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 250px;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 100;
+        list-style: none;
+    }
+
+    .nav-item:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .submenu li a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        color: #1e293b;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .submenu li a:hover {
+        background: #f1f5f9;
+        color: #4f46e5;
+        padding-left: 1.75rem;
+    }
+
+    .submenu li:last-child a {
+        border-bottom: none;
+    }
+
+    /* ========== ESTILOS DEL ARTÍCULO ========== */
+    .article-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .article-header {
+        margin-bottom: 2rem;
+    }
+
+    .article-category {
+        display: inline-block;
+        background: linear-gradient(135deg, #4f46e5, #818cf8);
+        color: white;
+        padding: 0.25rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: #64748b;
+        font-size: 0.9rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .article-image {
+        width: 100%;
+        border-radius: 0.75rem;
+        margin: 2rem 0;
+    }
+
+    .article-content {
+        line-height: 1.8;
+    }
+
+    .article-content h2 {
+        margin: 2rem 0 1rem;
+        color: #4f46e5;
+    }
+
+    .article-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #4f46e5;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 2rem;
+        transition: all 0.3s;
+    }
+
+    .btn-back:hover {
+        background: #4338ca;
+        gap: 0.75rem;
+    }
+
+    .footer {
+        background: #0f172a;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+        .nav-main {
+            flex-direction: column;
+        }
+        
+        .article-container {
+            margin: 1rem;
+            padding: 1rem;
+        }
+        
+        .article-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .search-input {
+            width: 100%;
+        }
+        
+        .submenu {
+            position: static;
+            display: none;
+        }
+        
+        .nav-item:hover .submenu {
+            display: block;
+        }
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-main">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>IA Responsable</h1>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>
+                               
+                <li class="nav-item">
+                    <a href="index.html#videos" class="nav-link">
+                        <i class="fas fa-video"></i> Videos
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="article-container">
+    <div class="article-header">
+        <h1>Riesgos Cognitivos en el Uso de IA</h1>
+        <div class="article-meta">
+            <span><i class="fas fa-user"></i> Yamile Molina</span>
+            <span><i class="fas fa-calendar"></i> 06 Mayo 2026</span>
+        </div>
+    </div>
+    
+    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=200&fit=crop" class="article-image">
+    
+    <div class="article-content">
+        <p>Aunque las herramientas de Procesamiento de Lenguaje Natural (PLN) facilitan la creación de trabajos aparentemente originales,
+        también derivan en un esfuerzo cognitivo mínimo por parte de los estudiantes, lo que limita el aprendizaje significativo (Suárez
+        Muñoz, 2025).<br>Los estudiantes podrían habituarse a consumir y producir textos, y a resolver problemas mediante el uso de IA.
+        A pesar de su sofisticación lingüística, estas herramientas carecen de razonamiento y de la conciencia que caracteriza al ser
+        humano, elementos esenciales para la producción académica y generación de conocimiento auténtico, esto impactaría negativamente
+        en los procesos de aprendizaje, desvirtuando la esencia educativa y generando potenciales efectos perjudiciales en los estudiantes.
+        </p>
+        
+        <h2>¿Qué efectos tiene en el aprendizaje?</h2>
+        <p>Estas tecnologías están transformando los procesos de enseñanza-aprendizaje, ya que tanto los profesores como los alumnos pueden
+        hacer uso de ellas; los profesores las pueden usar para elaborar planeaciones, temarios, diálogos para las materias de idiomas disti
+        ntos a la lengua materna, generar contenidos literarios, contenidos visuales sobre las materias que imparten, ejercicios para hacer
+        más dinámicas sus clases y hasta exámenes. Incluso pueden ser usadas como herramienta para la investigación académica y científica,
+        si se usan como apoyo y no como fuente. Los alumnos por su parte, las pueden usar para realizar actividades académicas, tales como
+        pedir sugerencias de proyectos, ideas creativas, codificación de software, para diseño de bases de datos en las carreras de sistemas
+        e informática, y en ocasiones también las utilizan de manera irresponsable para resolver exámenes y entregar ensayos finales como si
+        fueran redacciones propias.</p>
+        
+        <h2>¿Por Qué afecta cognitivamente?</h2>
+        <p>Es importante tener en cuenta que el uso de las IAs se debe hacer de manera responsable y consciente; la ética es un elemento que
+        se debe retomar ante la proliferación de tecnologías que usadas de manera incorrecta, puede repercutir en los procesos cognitivos de
+        los estudiantes, ya que al dejar que la inteligencia artificial realice las tareas que propician el desarrollo de la creatividad
+        , adquisición de habilidades y conocimientos del alumno, el cerebro humano ejercitar menos ciertas regiones neuronales, lo que p
+        otencialmente podría llevar a una disminución de la actividad intelectual en esas áreas.<br>Esto plantea una preocupación en el
+        contexto del desarrollo cognitivo, de manera similar a cómo la falta general de actividad intelectual se ha asociado con un may
+        or riesgo de padecimientos como el Alzheimer o casos de aislamiento del mundo real.<br>En ese mismo sentido, Firth et al. (2019)
+        documentaron cambios en los patrones de activación cerebral asociados con la resolución de problemas en estudiantes que utiliza
+        n intensivamente herramientas de IA, observando una disminución en la activación de áreas cerebrales vinculadas al pensamiento cr
+        ítico y la creatividad, cuando los participantes sabían que podían acceder a asistentes de IA. Este fenómeno, denominado "descarg
+        a cognitiva tecnológica", sugiere que el cerebro puede reducir su esfuerzo cognitivo cuando percibe que una herramienta externa pu
+        ede realizar la tarea, potencialmente afectando el desarrollo de capacidades cognitivas fundamentales a largo plazo.<br>Si bien est
+        os efectos en el pensamiento crítico y las capacidades cognitivas se relacionan con la neurociencia cognitiva, es importante destacar
+        que el uso prolongado de plataformas de IA podría, teóricamente, impactar en el desarrollo de áreas cerebrales claves para el pensamiento
+        crítico, la memorización y la abstracción, áreas como la corteza prefrontal y dorsolateral, así como la memorización y la abstracción
+        que se desarrollan en el hipocampo.</p>
+
+        <h2>Efectos a largo plazo</h2>
+        <p>Los estudiantes en un futuro podrían carecer de conocimientos y habilidades prácticas para realizar actividades cognitivas que req
+        uieren de creatividad, criterio propio y habilidades mentales, mientras que las tecnologías serán cada vez más superiores en habilidades
+        generativas y predictivas. Esto podría afianzar la dependencia tecnológica y acrecentar la brecha de conocimiento práctico.<br>Si se sigue
+        esa tendencia, pronto los estudiantes que tienen dependencia de la IA tendrán un pensamiento dependiente de prompts, donde los estudiantes
+        comienzan a conceptualizar problemas únicamente en términos de cómo formularlos para una IA, en lugar de desarrollar marcos conceptuales pro
+        pios que les ayuden a resolver problemas prácticos. Esta reestructuración cognitiva podría resultar en una disminución de la autonomía intelec
+        tual, y en una potencial incapacidad para afrontar situaciones donde las herramientas de IA no estén disponibles o no sean aplicables.<br>Lo a
+        nterior no significa que el uso de la tecnología en el proceso de enseñanza-aprendizaje sea malo, solo se menciona para <b>tomar conciencia</b>
+        de que estas tecnologías deben incorporarse con cuidado en el proceso educativo, <b>no para reemplazar</b> funciones cognitivas humanas, sino
+        para hacer más productivos a los humanos, para generar ideas e incluso para mejorar las habilidades actuales.</p>
+
+        <h2>¿Qué si hacer?</h2>
+        <p>Por ejemplo, si a ChatGPT se le pide que haga corrección de la escritura de un texto, lo hace, y lo hace bastante bien, pero si adem
+        ás le pedimos que nos explique el porqué de esos cambios, y si analizamos las respuestas, nos puede ayudarnos a mejorar en la escritura.<br>Lo mi
+        smo ocurre con otras materias, si en lugar de solo pedirle que resuelva los ejercicios, le pedimos que nos explique cómo hacerlo, puede ser
+        una excelente herramienta para el aprendizaje, pero solo si, en lugar de acatar las sugerencias o copiar y pegar sin razonamiento alguno, se analizan
+        los errores y las correcciones sugeridas con la intención de adquirir conocimiento sólidos, ello implica un uso consciente de esta tecnología, es decir,
+        usarla como herramienta para adquirir conocimientos y no solo para resolver los ejercicios sin esfuerzo intelectual.<br>Al interactuar con herramientas de
+        IA capaces de generar texto, imágenes o incluso código, los estudiantes pueden potenciar su creatividad al explorar ideas y perspectivas novedosas que qui
+        zás no habrían considerado por sí mismos. Además, la capacidad de la IA para personalizar el aprendizaje y proporcionar retroalimentación adaptativa, fom
+        enta un pensamiento más profundo y una mejor comprensión de los conceptos complejos. Esta interacción dinámica no solo mejora la capacidad de resoluc
+        ión de problemas, sino que también cultiva habilidades metacognitivas al alentar a los estudiantes a evaluar críticamente el contenido generado por la I
+        A, así como a refinar sus propias ideas. No obstante, para ello se requiere hacer un uso consciente de la tecnología y no dejar la carga cognitiva a la IA</p>
+        
+        <h2>Referencias</h2>
+        <p>Suárez Muñoz, F. (2025). <i>Inteligencia artificial generativa en la educación: implicaciones éticas y riesgos cognitivos.</i> Simposio Argentino de Infor
+        mática, Derecho y Sociedad (SIDS 2025) – JAIIO 54, 85–98. Universidad Nacional de La Plata. <a href="http://sedici.unlp.edu.ar/handle/10915/190842">http://s
+        edici.unlp.edu.ar/handle/10915/190842</a> </p>
+    </div>
+    
+    <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+</div>
+
+<footer class="footer">
+    <p>© 2026 IA Responsable | Promoviendo el uso ético de la inteligencia artificial</p>
+    <p style="margin-top: 0.5rem;">
+
+    </p>
+</footer>
+</body>
+</html>

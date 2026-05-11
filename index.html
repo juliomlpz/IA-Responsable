@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Responsable | Ética y Tecnología</title>
+<meta name="description" content="Explora el uso ético y responsable de la inteligencia artificial. Artículos sobre riesgos, beneficios y buenas prácticas.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        color: #0f172a;
+        line-height: 1.6;
+    }
+
+    /* ========== NAVBAR COMPLETA CON SUBMENÚS ========== */
+    .navbar {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .nav-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 0;
+    }
+
+    .logo i {
+        font-size: 2rem;
+        color: #818cf8;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 700;
+    }
+
+    /* Menú principal */
+    .nav-menu {
+        display: flex;
+        gap: 0.5rem;
+        list-style: none;
+        flex-wrap: wrap;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+        color: #e2e8f0;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .nav-link i {
+        font-size: 0.9rem;
+    }
+
+    .nav-link:hover {
+        background: rgba(129, 140, 248, 0.2);
+        color: white;
+    }
+
+    /* Submenú */
+    .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 250px;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 100;
+        list-style: none;
+    }
+
+    .nav-item:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .submenu li a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        color: #1e293b;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .submenu li a:hover {
+        background: #f1f5f9;
+        color: #4f46e5;
+        padding-left: 1.75rem;
+    }
+
+    .submenu li:last-child a {
+        border-bottom: none;
+    }
+
+    /* Buscador */
+    .search-container {
+        position: relative;
+    }
+
+    .search-input {
+        padding: 0.6rem 1rem 0.6rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        background: #334155;
+        color: white;
+        font-size: 0.9rem;
+        width: 250px;
+        transition: all 0.3s ease;
+    }
+
+    .search-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .search-input:focus {
+        outline: none;
+        background: #475569;
+        width: 300px;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.9rem;
+    }
+
+    .search-results {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        min-width: 300px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        margin-top: 0.5rem;
+        display: none;
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 1000;
+    }
+
+    .search-results.active {
+        display: block;
+    }
+
+    .search-result-item {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .search-result-item:hover {
+        background: #f1f5f9;
+    }
+
+    .search-result-item h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+        color: #1e293b;
+    }
+
+    .search-result-item p {
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(120deg, #4f46e5 0%, #818cf8 100%);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .hero h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Contenedor principal */
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 3rem 2rem;
+    }
+
+    /* Artículo Destacado */
+    .featured-section {
+        margin-bottom: 4rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .section-title i {
+        color: #4f46e5;
+    }
+
+    .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+
+    .featured-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .featured-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .featured-content {
+        padding: 2rem;
+    }
+
+    .featured-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #4f46e5, #818cf8);
+        color: white;
+        padding: 0.25rem 1rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .featured-content h3 {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #4f46e5;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 1rem;
+        transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+        background: #4338ca;
+        gap: 0.75rem;
+    }
+
+    /* Grid de Artículos */
+    .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .article-card {
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+
+    .article-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+    }
+
+    .article-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .article-content {
+        padding: 1.5rem;
+    }
+
+    .article-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Sección de Videos */
+    .videos-section {
+        margin-top: 4rem;
+    }
+
+    .videos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .video-card {
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+
+    .video-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+    }
+
+    .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .video-info {
+        padding: 1rem;
+    }
+
+    .video-info h4 {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Footer */
+    .footer {
+        background: #0f172a;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .nav-main {
+            flex-direction: column;
+        }
+        
+        .featured-card {
+            grid-template-columns: 1fr;
+        }
+        
+        .videos-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .search-input {
+            width: 100%;
+        }
+        
+        .nav-menu {
+            justify-content: center;
+        }
+        
+        .submenu {
+            position: static;
+            display: none;
+            box-shadow: none;
+        }
+        
+        .nav-item:hover .submenu {
+            display: block;
+        }
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-main">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>IA Responsable</h1>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>                
+                <li class="nav-item">
+                    <a href="#videos" class="nav-link">
+                        <i class="fas fa-video"></i> Videos
+                    </a>
+                </li>
+            </ul>
+            
+
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <h2>Construyendo un futuro ético con IA</h2>
+    <p>Artículos, videos y recursos para un desarrollo tecnológico responsable</p>
+</section>
+
+<div class="container">
+    <!-- ARTÍCULO DESTACADO -->
+    <section class="featured-section">
+        <div class="section-title">
+            <i class="fas fa-star"></i>
+            <h2>Artículo Destacado</h2>
+        </div>
+        <div class="featured-card">
+            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Ética IA" class="featured-image">
+            <div class="featured-content">
+                <span class="featured-badge"><i class="fas fa-fire"></i> Destacado</span>
+                <h3>¿Cómo los estudiantes usan cotidianamente las IA’s y como les ayuda?</h3>
+                <p>Principios fundamentales para entender cómo vemos las IA´s</p>
+                <a href="articulo1.html" class="btn-primary">
+                    Leer artículo completo <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- LISTA DE ARTÍCULOS -->
+    <section>
+        <div class="section-title">
+            <i class="fas fa-newspaper"></i>
+            <h2>Todos los Artículos</h2>
+        </div>
+        <div class="articles-grid" id="articlesGrid"></div>
+    </section>
+    
+    <!-- SECCIÓN DE VIDEOS -->
+    <section class="videos-section" id="videos">
+        <div class="section-title">
+            <i class="fas fa-video"></i>
+            <h2>Videos Recomendados</h2>
+        </div>
+        <div class="videos-grid">
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/bOQjgy1PhUg?si=j5_-XE1xO8igvF7q&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h4>¿Qué es la Inteligencia Artificial?</h4>
+                    <p>Introducción a la IA</p>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/zVn99Lf9JuM?si=Gt5_NPcTqljMjRHh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h4>Ética en la Era de la IA</h4>
+                    <p>Buenas prácticas</p>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/mm4W5Y-TNH0?si=9HM3nOieHkUlEHkP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h4>Entendiendo la IA</h4>
+                    <p>Información más profunda sobre su uso</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <p>© 2026 IA Responsable | Promoviendo el uso ético de la inteligencia artificial</p>
+    <p style="margin-top: 0.5rem;">
+
+    </p>
+</footer>
+
+<script>
+    const articulos = [
+        { id: 1, titulo: "¿Cómo los estudiantes usan cotidianamente las IA’s y como les ayuda?", resumen: "Principios fundamentales para un uso responsable.", imagen: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=200&fit=crop", url: "articulo1.html" },
+        { id: 2, titulo: "En qué realmente es útil usar la IA: ¿Que puede hacer la IA por ti hoy?", resumen: "¿Cómo nos apoya?", imagen: "https://images.unsplash.com/photo-1555255707-c07966088b7b?w=400&h=200&fit=crop", url: "articulo2.html" },
+        { id: 3, titulo: "La inteligencia Artificial como herramienta de apoyo académico", resumen: "Una mirada a plataformas interesantes", imagen: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=200&fit=crop", url: "articulo3.html" },
+        { id: 4, titulo: "El Estado actual de las herramientas de inteligencia artificial más confiables.", resumen: "Comparación de los servicios más capaces", imagen: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop", url: "articulo4.html" },
+        { id: 5, titulo: "Como verificar información confiable en la IA", resumen: "Protección de datos.", imagen: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=400&h=200&fit=crop", url: "articulo5.html" },
+        { id: 6, titulo: "Riesgos Cognitivos en el Uso de IA", resumen: "Impacto en el aprendizaje.", imagen: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=200&fit=crop", url: "articulo6.html" }
+    ];
+
+    function renderArticles() {
+        const grid = document.getElementById('articlesGrid');
+        if (!grid) return;
+        
+        grid.innerHTML = articulos.map(articulo => `
+            <div class="article-card" onclick="location.href='${articulo.url}'">
+                <img class="article-image" src="${articulo.imagen}" alt="${articulo.titulo}">
+                <div class="article-content">
+
+                    <h3>${articulo.titulo}</h3>
+                    <p>${articulo.resumen}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+
+;
+
+    renderArticles();
+</script>
+</body>
+</html>

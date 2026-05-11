@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Responsable | Ética en la IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f1f5f9;
+        color: #0f172a;
+        line-height: 1.6;
+    }
+
+    /* ========== NAVBAR COMPLETA ========== */
+    .navbar {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .nav-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 0;
+    }
+
+    .logo i {
+        font-size: 2rem;
+        color: #818cf8;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 700;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 0.5rem;
+        list-style: none;
+        flex-wrap: wrap;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+        color: #e2e8f0;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .nav-link i {
+        font-size: 0.9rem;
+    }
+
+    .nav-link:hover {
+        background: rgba(129, 140, 248, 0.2);
+        color: white;
+    }
+
+    .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 250px;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 100;
+        list-style: none;
+    }
+
+    .nav-item:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .submenu li a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        color: #1e293b;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .submenu li a:hover {
+        background: #f1f5f9;
+        color: #4f46e5;
+        padding-left: 1.75rem;
+    }
+
+    .submenu li:last-child a {
+        border-bottom: none;
+    }
+
+    /* Buscador */
+    .search-container {
+        position: relative;
+    }
+
+    .search-input {
+        padding: 0.6rem 1rem 0.6rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        background: #334155;
+        color: white;
+        font-size: 0.9rem;
+        width: 250px;
+        transition: all 0.3s ease;
+    }
+
+    .search-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .search-input:focus {
+        outline: none;
+        background: #475569;
+        width: 300px;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.9rem;
+    }
+
+    .search-results {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        min-width: 300px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        margin-top: 0.5rem;
+        display: none;
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 1000;
+    }
+
+    .search-results.active {
+        display: block;
+    }
+
+    .search-result-item {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .search-result-item:hover {
+        background: #f1f5f9;
+    }
+
+    .search-result-item h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+        color: #1e293b;
+    }
+
+    .search-result-item p {
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+
+    /* ========== ESTILOS DEL ARTÍCULO ========== */
+    .article-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .article-header {
+        margin-bottom: 2rem;
+    }
+
+    .article-category {
+        display: inline-block;
+        background: linear-gradient(135deg, #4f46e5, #818cf8);
+        color: white;
+        padding: 0.25rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: #64748b;
+        font-size: 0.9rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .article-image {
+        width: 100%;
+        border-radius: 0.75rem;
+        margin: 2rem 0;
+    }
+
+    .article-content {
+        line-height: 1.8;
+    }
+
+    .article-content h2 {
+        margin: 2rem 0 1rem;
+        color: #4f46e5;
+    }
+
+    .article-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #4f46e5;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 2rem;
+        transition: all 0.3s;
+    }
+
+    .btn-back:hover {
+        background: #4338ca;
+        gap: 0.75rem;
+    }
+
+    .footer {
+        background: #0f172a;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+        .nav-main {
+            flex-direction: column;
+        }
+        
+        .article-container {
+            margin: 1rem;
+            padding: 1rem;
+        }
+        
+        .article-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .search-input {
+            width: 100%;
+        }
+        
+        .submenu {
+            position: static;
+            display: none;
+        }
+        
+        .nav-item:hover .submenu {
+            display: block;
+        }
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-main">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>IA Responsable</h1>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="index.html#videos" class="nav-link">
+                        <i class="fas fa-video"></i> Videos
+                    </a>
+                </li>
+            </ul>
+            
+
+        </div>
+    </div>
+</nav>
+
+<div class="article-container">
+    <div class="article-header">
+        <h1>¿Cómo los estudiantes usan cotidianamente las IA’s y como les ayuda?</h1>
+        <div class="article-meta">
+            <span><i class="fas fa-user"></i> Yamile Molina</span>
+            <span><i class="fas fa-calendar"></i> 30 de abril de 2026</span>
+        </div>
+    </div>
+    
+    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=400&fit=crop" class="article-image">
+    
+    <div class="article-content">
+        <p>La IA facilita el trabajo a docentes y estudiantes
+        lo que hace más rápido algunos procesos, es 
+        una buena herramienta en la educación ya 
+        que podría permitir la búsqueda de recursos 
+        didácticos  para dar mejores ejemplos durante las
+        clases, así mismo ayuda a enriquecer de información
+        facilitando de esta manera el aprendizaje.
+        Se valora la capacidad de la IA para facilitar el acceso
+        a fuentes confiables y optimizar el análisis de grandes
+        volúmenes de datos, funcionando significativamente como
+        una herramienta de apoyo en la investigación académica.
+        También, al generar información y contenidos adaptados al
+        lenguaje y cultura de los estudiantes, contribuye positivamente
+        al desarrollo de competencias en la educación y los
+        estudiantes para facilitar su comprensión y facilitar un
+        aprendizaje más personalizado tanto dentro como fuera del aula,
+        acercando la educación a contextos auténticos. <br>El aprendizaje
+        está cambiando radicalmente por lo que se debe adaptar
+        al proceso educativo este tipo de aplicaciones,
+        además que ayuda a promover otro tipo de habilidades
+        como la búsqueda de información, sin embargo también
+        nos ha hecho un poco menos productivos, ya que facilita
+        demasiado a la hora de hacer algún trabajo, quitándonos
+        la capacidad de pensar, ahorrando muchas cosa.</p>
+        
+        <h2>¿Se utiliza la inteligencia artificial de manera ética por parte de los estudiantes?</h2>
+        <p>Realmente no es de esta manera, ya que no se da el crédito al 
+         autor de la información obtenida, haciéndola pasar como de su 
+         autoría puesto que no estamos acostumbrados a poner referencias
+         y citas. Usualmente solo se usa la inteligencia artificial para
+         salir de problemas sin tomar en cuenta los autores o de donde
+         viene dicha información. Simplemente no se valida la información
+         generada, dando por hecho que es correcta.<br>La IA facilita
+         mucho el trabajo, ya que es precisa la información que brinda,
+         lo que ocasiona que a veces no se investigue más a profundidad
+         sobre el tema y por consecuencia no se analice ni comprenda bien
+         la información, haciendo al estudiante conformista. Otro aspecto
+         relevante, es que al usar la IA no se busca en otras fuentes de
+         consulta, limitando de esa manera la criticidad.<br>Muchas veces
+         el uso que se le da a la IA en la vida diaria son actividades
+         que el humano puede realizar por su cuenta. Sin embargo, si se
+         utiliza de manera adecuada, el uso de esta tecnología ayudaría
+         a enriquecer la información que ya se tiene, retroalimentando
+         y generando nuevos paradigmas para los estudiantes.<br>Para que
+         su uso sea responsable, es importante reconocer las fuentes de
+         información utilizadas y citar adecuadamente cuando las ideas
+         o textos fueron generados o apoyados por IA. De esta manera,
+         se evita el plagio y se promueve la honestidad académica.<br>Asimismo,
+         la IA debe emplearse para complementar el conocimiento y fomentar
+         el análisis crítico. En lugar de copiar directamente la información
+         proporcionada, el estudiante podría compararla con otras fuentes
+         confiables, investigar más a profundidad y desarrollar conclusiones
+         propias. Esto fortalece habilidades como la comprensión, la reflexión
+         y la capacidad de argumentar.<br>Otra forma ética de utilizar
+         la IA es aprovecharla como una herramienta de apoyo educativo,
+         por ejemplo, para resolver dudas, organizar ideas, corregir textos,
+         generar ejemplos o facilitar la comprensión de temas complejos.
+         En este caso, la inteligencia artificial funciona como una guía
+         que impulsa el aprendizaje autónomo, sin reemplazar el esfuerzo
+         personal del estudiante.</p>
+        
+        <h2>¿Cómo usar la IA en la creación de presentaciones o proyectos escolares de forma responsable?</h2>
+        <p><b>Generar gráficos y visualizaciones de datos automáticamente:</b>
+        <ol type = 1>
+            <li>Reunir información de fuentes confiables y verificadas. Analizar los datos personalmente antes de ingresarlos en la IA.</li> 
+            <li>Solicitar a la IA apoyo únicamente para organizar o representar visualmente la información.</li>
+            <li>Revisar que las gráficas sean correctas y no alteren los datos reales.</li>
+            <li>Citar las fuentes de donde se obtuvo la información utilizada en los gráficos.</li>
+        </ol><br>
+        <b>Emplear asistentes de escritura de IA para redactar y mejorar el contenido de las presentaciones</b><br><br>
+        <ol type = 1>
+            <li>Elaborar primero ideas propias sobre el tema.</li> 
+            <li>Utilizar la IA como apoyo para mejorar redacción, ortografía o claridad.</li>
+            <li>Leer y comprender completamente el texto generado antes de utilizarlo.</li>
+            <li>Modificar y complementar la información con opiniones y análisis personales.</li>
+            <li>Evitar copiar y pegar directamente el contenido sin revisarlo o citarlo cuando sea necesario.</li>
+        </ol><br>
+        <b>Incorporar IA para diseñar diapositivas con plantillas y formatos personalizados.</b><br><br>
+        <ol type = 1>
+            <li>Crear el contenido principal del proyecto de manera personal.</li> 
+            <li>Utilizar la IA únicamente para sugerencias de diseño, colores o distribución visual.</li>
+            <li>Adaptar las plantillas a las necesidades del tema y no depender totalmente de ellas.</li>
+            <li>Verificar que las imágenes, íconos o elementos utilizados respeten derechos de autor.</li>
+            <li>Priorizar que la presentación refleje creatividad y comprensión propia del estudiante.</li><br>
+        </ol>
+        <b>Implementar aplicaciones de IA para editar y optimizar imágenes y videos incluidos en los proyectos.</b><br><br>
+        <ol type = 1>
+            <li>Utilizar imágenes o videos propios o con permiso de uso.</li> 
+            <li>Emplear la IA para mejorar calidad, iluminación o edición básica del material.</li>
+            <li>Evitar alterar información visual de manera engañosa o manipuladora.</li>
+            <li>Revisar que el contenido final sea coherente y respete la intención original.</li>
+            <li>Dar crédito a los autores cuando se utilicen recursos externos en el proyecto.</li>
+        </ol></p>
+
+        <h2>Conclusión</h2>
+        <p>Es fundamental mantener un equilibrio adecuado entre la
+        automatización y la interacción humana, ya que la educación
+        también implica la formación de habilidades sociales y emocionales.<br>
+        La integración de tecnologías en la educación plantea desafíos y
+        consideraciones éticas que deben ser abordados para maximizar los
+        beneficios y minimizar los riesgos. Al abordar la privacidad, los
+        sesgos, la responsabilidad, el equilibrio entre tecnología y
+        enseñanza humana, y el acceso equitativo a la tecnología, podemos
+        construir un entorno educativo ético, inclusivo y efectivo para
+        odos los estudiantes (Aparicio-Gómez, 2023, p. 226).
+        </p>
+
+        <h2>Referencias</h2>
+        <p>La Inteligencia Artificial y su Incidencia en la Educación:
+        Transformando el Aprendizaje para el Siglo XXI. (2023). <i>Revista
+        Internacional De Pedagogía E Innovación Educativa, 3(2)</i>, 217-230.
+        <a href="https://www.researchgate.net/publication/372053496_La
+        Inteligencia_Artificial_y_su_Incidencia_en_la_Educacion_Transformando_
+        el_Aprendizaje_para_el_Siglo_XXI">//doi.org/10.51660/ripie.v3i2.133</a>.<br><br>
+        Menacho Ángeles, Milagros Rocío, Pizarro Arancibia, Lily Marisol,
+        Osorio Menacho, Julio Ancelmo, Osorio Menacho, Juana Alexandra, & León Pizarro, Brigittt Lily.
+        (2024).Inteligencia artificial como herramienta en el aprendizaje autónomo de los estudiantes
+        de educación superior.<i> Revista InveCom, 4(2)</i>, e040258. Epub 24 de julio de 2024.
+        <a href="https://ve.scielo.org/pdf/ric/v4n2/2739-0063-ric-4-02-e040258.pdf">//doi.org/10.5281/zenodo.
+        10693945</a><br><br>
+        González, M. A. M. (2023). Uso responsable de la inteligencia artificial en estudiantes
+        universitarios: Una mirada recnoética.<i> Revista Boletín Redipe, 12</i>(9), 172-178.
+        <a href="https://revista.redipe.org/index.php/1/article/view/2008"> //doi.org/10.36260/rbr.
+        v12i9.2008</a><br><br>
+        Miranda Flores de Valgas, Fany del Rocío, & Rodríguez Rodríguez, Alberto.
+        (2024). Uso adecuado de la inteligencia artificial en el Proceso Enseñanza- Aprendizaje de los
+        estudiantes universitarios. <i>Serie Científica de la Universidad de las Ciencias Informáticas, 17</i>
+        (5), 131-145.<a href="http://scielo.sld.cu/scielo.php?pid=S2306-24952024000500131&script=sci_arttext">
+        //scielo.sld.cu/scielo.php?script=sci_arttext&pid=S2306-24952024000500131&lng=es&tlng=es</a>. 
+        </p>
+    </div>
+    
+    <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+</div>
+
+<footer class="footer">
+    <p>© 2026 IA Responsable | Promoviendo el uso ético de la inteligencia artificial</p>
+    <p style="margin-top: 0.5rem;">
+
+    </p>
+</footer>
+
+</body>
+</html>

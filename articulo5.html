@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Responsable | Ética en la IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f1f5f9;
+        color: #0f172a;
+        line-height: 1.6;
+    }
+
+    /* ========== NAVBAR COMPLETA ========== */
+    .navbar {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .nav-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 0;
+    }
+
+    .logo i {
+        font-size: 2rem;
+        color: #818cf8;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 700;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 0.5rem;
+        list-style: none;
+        flex-wrap: wrap;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+        color: #e2e8f0;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .nav-link i {
+        font-size: 0.9rem;
+    }
+
+    .nav-link:hover {
+        background: rgba(129, 140, 248, 0.2);
+        color: white;
+    }
+
+    .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 250px;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 100;
+        list-style: none;
+    }
+
+    .nav-item:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .submenu li a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        color: #1e293b;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .submenu li a:hover {
+        background: #f1f5f9;
+        color: #4f46e5;
+        padding-left: 1.75rem;
+    }
+
+    .submenu li:last-child a {
+        border-bottom: none;
+    }
+
+    /* Buscador */
+    .search-container {
+        position: relative;
+    }
+
+    .search-input {
+        padding: 0.6rem 1rem 0.6rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        background: #334155;
+        color: white;
+        font-size: 0.9rem;
+        width: 250px;
+        transition: all 0.3s ease;
+    }
+
+    .search-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .search-input:focus {
+        outline: none;
+        background: #475569;
+        width: 300px;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.9rem;
+    }
+
+    .search-results {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        min-width: 300px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        margin-top: 0.5rem;
+        display: none;
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 1000;
+    }
+
+    .search-results.active {
+        display: block;
+    }
+
+    .search-result-item {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .search-result-item:hover {
+        background: #f1f5f9;
+    }
+
+    .search-result-item h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+        color: #1e293b;
+    }
+
+    .search-result-item p {
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+
+    /* ========== ESTILOS DEL ARTÍCULO ========== */
+    .article-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .article-header {
+        margin-bottom: 2rem;
+    }
+
+    .article-category {
+        display: inline-block;
+        background: linear-gradient(135deg, #4f46e5, #818cf8);
+        color: white;
+        padding: 0.25rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: #64748b;
+        font-size: 0.9rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .article-image {
+        width: 100%;
+        border-radius: 0.75rem;
+        margin: 2rem 0;
+    }
+
+    .article-content {
+        line-height: 1.8;
+    }
+
+    .article-content h2 {
+        margin: 2rem 0 1rem;
+        color: #4f46e5;
+    }
+
+    .article-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #4f46e5;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 2rem;
+        transition: all 0.3s;
+    }
+
+    .btn-back:hover {
+        background: #4338ca;
+        gap: 0.75rem;
+    }
+
+    .footer {
+        background: #0f172a;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+        .nav-main {
+            flex-direction: column;
+        }
+        
+        .article-container {
+            margin: 1rem;
+            padding: 1rem;
+        }
+        
+        .article-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .search-input {
+            width: 100%;
+        }
+        
+        .submenu {
+            position: static;
+            display: none;
+        }
+        
+        .nav-item:hover .submenu {
+            display: block;
+        }
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-main">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>IA Responsable</h1>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-newspaper"></i> Artículos
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="articulo1.html"><i class="fas fa-balance-scale"></i> Ética en la IA</a></li>
+                        <li><a href="articulo2.html"><i class="fas fa-exclamation-triangle"></i> Riesgos de la IA</a></li>
+                        <li><a href="articulo3.html"><i class="fas fa-graduation-cap"></i> IA en Educación</a></li>
+                        <li><a href="articulo4.html"><i class="fas fa-chart-line"></i> Sesgos Algorítmicos</a></li>
+                        <li><a href="articulo5.html"><i class="fas fa-shield-alt"></i> Privacidad Digital</a></li>
+                        <li><a href="articulo6.html"><i class="fas fa-clipboard-list"></i> Buenas Prácticas</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tags"></i> Categorías
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="#"><i class="fas fa-balance-scale"></i> Ética</a></li>
+                        <li><a href="#"><i class="fas fa-shield-virus"></i> Seguridad</a></li>
+                        <li><a href="#"><i class="fas fa-graduation-cap"></i> Educación</a></li>
+                        <li><a href="#"><i class="fas fa-chart-line"></i> Tecnología</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="index.html#videos" class="nav-link">
+                        <i class="fas fa-video"></i> Videos
+                    </a>
+                </li>
+            </ul>
+            
+
+        </div>
+    </div>
+</nav>
+
+<div class="article-container">
+    <div class="article-header">
+        <h1>Como verificar información confiable en la IA</h1>
+        <div class="article-meta">
+            <span><i class="fas fa-user"></i> Yareni de la Cruz</span>
+            <span><i class="fas fa-calendar"></i> 04 mayo 2026</span>
+        </div>
+    </div>
+    
+    <img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=400&h=200&fit=crop" class="article-image">
+    
+    <div class="article-content">
+
+        <h2>¿Por qué verificar?</h2>
+        <p>Las IA pueden ser demasiado útiles, pero no son perfectas, estas utilizan patrones y se entrenan con algoritmos que reco
+        pilan información de diversas fuentes, como datos públicos y privados y grandes cantidades de texto de internet, pero en re
+        alidad no "conocen" los hechos ni la verdad</p>
+        
+        <h2>Método SIFT</h2>
+        <p>Las siglas SIFT resumen los pasos del proceso de verificación: <i>Stop</i> (atura’t), <i>investigate the source</i> (inve
+        stiga la fuente), <i>find better coverage</i> (busca una cobertura millor)<i> i trace the evidence</i> (rastrea las pruebas).
+        <br>SIFT para IA se puede resumir en cuatro pasos:<br><b>1. Introducir la información en la IA.</b> Plantea la afirmación
+        que quieres verificar y pide su contexto.<br><b>2.	Investigar con preguntas de seguimiento.</b> Profundiza con preguntas con
+        cretas para entender mejor lo que se afirma y qué evidencias hay.<br><b>3.	Pedir fuentes de calidad.</b> No te quedes con la
+        respuesta: pide fuentes fiables y relevantes.<br><b>4.	Salir de la IA y comprobar.</b> Para el experto, el paso clave: revis
+        a las fuentes directamente y comprueba que dicen lo que se afirma desde la IA.</p>
+
+        <h2>Evaluación de información</h2>
+        <p>Para poder confiar en la información brindada por la inteligencia artificial es necesario de donde proviene esta y si cu
+        mple con las características adecuadas para considerarse una fuente confiable.</p>
+        <h3>Características </h3>
+        <p>Conocer la fecha de publicación nos indicará si la información ha sido actualizada o revisada. Dependiendo del tema, se 
+        requerirán fuentes con información actual o publicaciones anteriores.<br>Sugerencias:<br>•	Delimita el periodo de las fuen
+        tes de información según la necesidad.<br>•	Verifica cuándo se generó la información. Las IAs pueden tener datos actualiza
+        dos solo hasta cierto punto.<br>•	Asegúrate de que la información sea lo suficientemente reciente para tu propósito.<br>•
+        Cuestiona si la información sigue siendo relevante y si existe información reciente que pueda afectar su precisión.<br>La i
+        nformación recuperada resuelve las necesidades sobre el tema y con el nivel de información apropiado para el nivel académic
+        o o profesional requerido.<br>Sugerencias:<br>•	Proporciona la mayor cantidad de detalles posibles para que el resultado se<br>
+        ajuste específicamente a la necesidad de información. Por ejemplo, puedes utilizar términos controlados o un lenguaje técni
+        co según el tema de investigación.<br>•	Evalúa si la información es pertinente para tu pregunta o tema. Te recomendamos hac
+        er una investigación exploratoria de fuentes antes de preguntarle a la IA sobre tu tema de investigación, ya que las IAs pue
+        den generar respuestas que, aunque correctas, no siempre son totalmente relevantes.<br>La información recuperada por la IA
+        debería ser contrastada y verificada; aunque las IAs no citan fuentes directamente, pueden estar basadas en un amplio rango
+        de datos de calidad variable.<br>Sugerencias:<br>•	Corrobora que la información brindada especifique algún dato sobre el
+        autor o la fuente de procedencia.<br>Se debe tener claro el origen de la información; esta debe ser revisada o verificada.
+        No debe haber inconsistencias en la información recuperada.<br>Sugerencias:<br>•	Realiza referencias cruzadas de la info
+        rmación con fuentes confiables, como artículos académicos, informes, libros y páginas web reconocidas.</p>
+
+        <h2>Pasos para verificar fuentes</h2>
+        <h3>Paso 1: Verificar con fuentes confiables</h3>
+        <p>Siempre verifique la información generada por IA utilizando fuentes académicas y profesionales confiables.<br>Consulte si
+        tios web de buena reputación, como los sitios oficiales del gobierno (.gov), de las universidades (.edu) y de los principal
+        es sitios de noticias (.org/.com).<br>Utilice bases de datos académicas como JSTOR, PubMed y Google Scholar (disponibles a
+        través de la biblioteca de la Universidad Ambiental de Unity).</p>
+        <h3>Paso 2: Consultar múltiples fuentes</h3>
+        <p>No te fíes de una sola fuente. Contrasta la información obtenida mediante IA con al menos dos o tres fuentes fiables pa
+        ra confirmar su exactitud.<br>Si varias fuentes contradicen el texto proporcionado por la IA, confíe en las fuentes reales
+        y verificadas y cítelas.</p>
+        <h3>Paso 3: Evaluar la relevancia y la credibilidad.</h3>
+        <p>Evalúe la credibilidad de sus fuentes considerando lo siguiente:<br><br>•	¿El autor es un experto en la materia?<br>•	¿La
+        publicación ha sido revisada por pares o proviene de una institución de prestigio?<br>•	¿La fuente tiene un sesgo evidente?<br>
+        •	¿La información es actual y sigue siendo relevante?</p>
+        
+        <h2>Como evitar el plagio</h2>
+        <h3>Paso 1: Entender qué constituye plagio</h3>
+        <p>El plagio consiste en utilizar las palabras o ideas de otra persona sin darle el crédito correspondiente. Esto incluye copiar
+        texto textualmente, parafrasear demasiado fielmente o utilizar ideas sin citar la fuente. Utilizar la IA para copiar, parafrasea
+        r o reproducir directamente el trabajo de otra persona y presentarlo como propio constituye una violación del Código de Honor de
+        l programa Unity DE.</p>
+        <h3>Paso 2: Siempre cite sus fuentes.</h3>
+        <p>Cuando utilice contenido generado por IA, debe verificar y citar las ideas que contiene, al igual que lo haría con cualquier o
+        tra fuente. La IA generativa no es una fuente fiable ni citable por sí sola, por lo que si la IA le proporciona ideas, debe:<br>•
+        Verifícalos utilizando fuentes reales.<br>•	Cita la fuente original, no la IA.<br>La mayoría de las tareas requieren el uso de
+        citas en el texto para reconocer el origen de las ideas. Es su responsabilidad incluir estas citas y verificar su fuente y pertin
+        encia.</p>
+        <h3>Paso 3: Cuidado con las citas falsas o inexactas de la IA</h3>
+        <p>Las herramientas de IA generativa pueden generar fuentes ficticias . Si se le pide a una herramienta de IA que añada citas o pr
+        oporcione referencias sobre un tema, podría ofrecer citas que parezcan reales pero que sean completamente falsas, o citas reales qu
+        e no digan lo que la IA afirma. Esto se conoce como falsificación de citas o atribución errónea, y constituye una forma de falsif
+        icación académica.<br>Evite esta práctica. En su lugar, siga este método:<br>•	Investiga por tu cuenta. Busca tus fuentes en base
+        s de datos como JSTOR, PubMed, Google Scholar u otros recursos de la biblioteca de Unity.<br>•	Toma nota de las fuentes. Crea un
+        documento sencillo donde anotes qué ideas provienen de qué fuentes.<br>•	Verifica tú mismo las citas. Si la IA sugiere una fuente
+        , consulta el artículo o libro original antes de usarlo o citarlo.<br>Consejo: Si no encuentra la cita mediante una búsqueda rápida 
+        en una base de datos de la biblioteca o en Google Académico, probablemente no exista.<br>Recuerda: Utilizar una cita falsa o incorrecta
+        (incluso por accidente) sigue siendo tu responsabilidad y puede considerarse deshonestidad académica.</p>
+        <h3>Paso 4: Utilizar herramientas de detección de plagio</h3>
+        <p>La IA generativa puede incluir contenido copiado de otras fuentes. Para evitar el plagio involuntario:<br>•	Revisa tu bo
+        rrador con un detector de plagio como Grammarly o Copyscape.(Nota: Estas herramientas son útiles, pero no infalibles).<br>•	
+        Revisa cuidadosamente tu propio trabajo. Si incluyes un dato, una idea o una cita sin referencia, busca la fuente o elimínala.</p>
+        <h3>Paso 5: Mantenga un registro de sus interacciones con la IA.</h3>
+        <p>Es recomendable guardar las transcripciones de tus conversaciones con la IA. Esta información te ayudará a hacer un seguimiento
+        de tu uso de la IA y a identificar estrategias exitosas y no exitosas según los comentarios de tu instructor.<br>Consejos:<br>•	¡Sea
+        escéptico y curioso!<br>•	¡No te límites a copiar y pegar!<br>•	Cuestiona siempre la información e indaga más a fondo.<br>•	Lea
+        y revise para asegurar la claridad y el significado.<br>•	Si algo parece o suena raro en la salida de una IA, probablemente lo esté.
+        <br>•	Eres responsable de lo que envías, independientemente de la herramienta que utilices.<br>•	Siempre verifica. Siempre cita.
+        Siempre comprueba.</p>
+    
+        <img src="media/5.png" style="max-width: 100%; height: auto;">
+    
+        <h2>Referencias</h2>
+        <P>Chaves, E. (s. f.).<i>Edwin Chaves.</i> <a href="https://blog.ciaem-redumate.org/las-alucinaciones-de-la-ia-recomendaciones-pra
+        cticas-para-verificar-la-informacion-generada-por-ia/">https://blog.ciaem-redumate.org/las-alucinaciones-de-la-ia-recomendaciones-p
+        racticas-para-verificar-la-informacion-generada-por-ia/</a><br><br>
+        Unity Environmental. (2026, 1 abril). <i>Fact-Checking Generative AI and Avoiding Plagiarism — Unity Environmental University.</i> Un
+        ity Environmental University. <a href="https://unity-edu.translate.goog/distance-education/commhub/using-generative-ai/fact-checking-
+        generative-ai-and-avoiding-plagiarism/?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc">https://unity-edu.translate.goog/distance-edu
+        cation/commhub/using-generative-ai/fact-checking-generative-ai-and-avoiding-plagiarism/?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=
+        tc</a><br><br>
+        Herrero, M. P. (2026, 2 abril). ¿Sabes cómo verificar la información que te da la IA? ¡El método SIFT te ayuda!  - Verificat. <i>Ve
+        rificat.</i> <a href="https://www.verificat.cat/es/verificar-informacion-ia-metodo-sift/">https://www.verificat.cat/es/verificar-in
+        formacion-ia-metodo-sift/</a><br><br>
+        <i>IA y verificación de información: ¿aliada o amenaza? | Observatorio de Medios Digitales | Tecnológico de Monterrey. </i>(s. f.).
+        <a href="https://omd.tec.mx/noticia/ia-y-verificacion-de-informacion-aliada-o-amenaza">https://omd.tec.mx/noticia/ia-y-verificacion-de-
+        informacion-aliada-o-amenaza</a><br><br>
+        <i>Guías temáticas: Inteligencia Artificial en la Investigación Académica: Evaluación de fuentes de información.</i>(s. f.-b). <a href=
+        "https://libguides.ulima.edu.pe/ia_investigacion/evaluacion">https://libguides.ulima.edu.pe/ia_investigacion/evaluacion</a> 
+
+        </P>
+
+    </div>
+    
+    <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+</div>
+
+<footer class="footer">
+    <p>© 2026 IA Responsable | Promoviendo el uso ético de la inteligencia artificial</p>
+    <p style="margin-top: 0.5rem;">
+
+    </p>
+</footer>
+
+
+</body>
+</html>

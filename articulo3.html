@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Responsable | Ética en la IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f1f5f9;
+        color: #0f172a;
+        line-height: 1.6;
+    }
+
+    /* ========== NAVBAR COMPLETA ========== */
+    .navbar {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .nav-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 0;
+    }
+
+    .logo i {
+        font-size: 2rem;
+        color: #818cf8;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 700;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 0.5rem;
+        list-style: none;
+        flex-wrap: wrap;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+        color: #e2e8f0;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .nav-link i {
+        font-size: 0.9rem;
+    }
+
+    .nav-link:hover {
+        background: rgba(129, 140, 248, 0.2);
+        color: white;
+    }
+
+    .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 250px;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 100;
+        list-style: none;
+    }
+
+    .nav-item:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .submenu li a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        color: #1e293b;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .submenu li a:hover {
+        background: #f1f5f9;
+        color: #4f46e5;
+        padding-left: 1.75rem;
+    }
+
+    .submenu li:last-child a {
+        border-bottom: none;
+    }
+
+    /* Buscador */
+    .search-container {
+        position: relative;
+    }
+
+    .search-input {
+        padding: 0.6rem 1rem 0.6rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        background: #334155;
+        color: white;
+        font-size: 0.9rem;
+        width: 250px;
+        transition: all 0.3s ease;
+    }
+
+    .search-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .search-input:focus {
+        outline: none;
+        background: #475569;
+        width: 300px;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.9rem;
+    }
+
+    .search-results {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        min-width: 300px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        margin-top: 0.5rem;
+        display: none;
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 1000;
+    }
+
+    .search-results.active {
+        display: block;
+    }
+
+    .search-result-item {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .search-result-item:hover {
+        background: #f1f5f9;
+    }
+
+    .search-result-item h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+        color: #1e293b;
+    }
+
+    .search-result-item p {
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+
+    /* ========== ESTILOS DEL ARTÍCULO ========== */
+    .article-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .article-header {
+        margin-bottom: 2rem;
+    }
+
+    .article-category {
+        display: inline-block;
+        background: linear-gradient(135deg, #4f46e5, #818cf8);
+        color: white;
+        padding: 0.25rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: #64748b;
+        font-size: 0.9rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .article-image {
+        width: 100%;
+        border-radius: 0.75rem;
+        margin: 2rem 0;
+    }
+
+    .article-content {
+        line-height: 1.8;
+    }
+
+    .article-content h2 {
+        margin: 2rem 0 1rem;
+        color: #4f46e5;
+    }
+
+    .article-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #4f46e5;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 2rem;
+        transition: all 0.3s;
+    }
+
+    .btn-back:hover {
+        background: #4338ca;
+        gap: 0.75rem;
+    }
+
+    .footer {
+        background: #0f172a;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+        .nav-main {
+            flex-direction: column;
+        }
+        
+        .article-container {
+            margin: 1rem;
+            padding: 1rem;
+        }
+        
+        .article-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .search-input {
+            width: 100%;
+        }
+        
+        .submenu {
+            position: static;
+            display: none;
+        }
+        
+        .nav-item:hover .submenu {
+            display: block;
+        }
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-main">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>IA Responsable</h1>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>
+                
+              
+                <li class="nav-item">
+                    <a href="index.html#videos" class="nav-link">
+                        <i class="fas fa-video"></i> Videos
+                    </a>
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+</nav>
+
+<div class="article-container">
+    <div class="article-header">
+        <h1>La inteligencia Artificial como herramienta de apoyo académico</h1>
+        <div class="article-meta">
+            <span><i class="fas fa-user"></i> Yareni de la Cruz</span>
+            <span><i class="fas fa-calendar"></i> 02 Mayo 2026</span>
+        </div>
+    </div>
+    
+    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=200&fit=crop" class="article-image">
+    
+    <div class="article-content">
+
+        <h2>Beneficios de la IA</h2>
+        <h3>Personalización</h3>
+        <p>Plataformas y aplicaciones inteligentes analizan tus hábitos de aprendizaje, detectan en qué áreas necesi
+        tas reforzar y te ofrecen contenidos adaptados a tu ritmo. Esto significa que puedes avanzar más rápido en
+        los temas que dominas y profundizar en aquellos que requieren mayor esfuerzo. Programas académicos como la
+        Licenciatura Ejecutiva en Programación y Transformación Digital ayudan a los estudiantes a comprender cómo
+        aplicar estas tecnologías en su vida diaria y profesional.</p>
+        <h3>Potenciar Habilidades</h3>
+        <p>inteligencia artificial también potencia la memoria y la retención del conocimiento. Existen aplicaciones
+        que convierten apuntes en tarjetas digitales, juegos de repaso o cuestionarios interactivos que se ajustan a
+        tu desempeño. Estas técnicas de aprendizaje adaptativo incrementan la comprensión y mejoran los resultados en
+        evaluaciones. En la EBC, carreras como la Licenciatura Ejecutiva en Psicología Organizacional abordan cómo fun
+        ciona la mente humana y cómo la tecnología puede reforzar la motivación y la concentración.</p>
+        <h3>Automatización de Tareas</h3>
+        <p>La IA permite resumir textos largos, generar esquemas, organizar calendarios de estudio y hasta responder
+        dudas en tiempo real. Estas funciones liberan tiempo que los alumnos pueden invertir en actividades de análisi
+        s crítico y resolución de problemas.  Herramientas de traducción automática, asistentes de redacción y platafor
+        mas de trabajo en línea permiten que estudiantes de distintas partes del mundo trabajen juntos en proyectos aca
+        démicos.</p>
+        <h3>Eficiencia en la gestión educativa</h3>
+        <p>Gracias a la inteligencia artificial en la educación podemos automatizar las tareas más repetitivas. Esto
+        permite a los maestros dedicar menos tiempo a la calificación de exámenes, la gestión de horarios o la organi
+        zación administrativa para poder enfocarse todavía más en lo que realmente importa: la enseñanza personalizada
+        y el apoyo directo a los estudiantes. La automatización de estas tareas libera tiempo valioso que los educadores
+        pueden invertir en diseñar experiencias de aprendizaje más ricas y en atender las necesidades individuales de sus
+        alumnos.</p>
+        <h3>Soporte constante y retroalimentación instantánea</h3>
+        <p>Las herramientas de IA pueden proporcionar asistencia y retroalimentación instantánea a los estudiantes las 24
+        horas del día, los 7 días de la semana. Esto resulta especialmente útil para garantizar un soporte constante y
+        resolver dudas fuera del horario escolar. Los asistentes virtuales basados en IA pueden responder preguntas frecuentes,
+        proporcionar explicaciones adicionales sobre conceptos complejos y guiar a los estudiantes a través de ejercicios práct
+        icos, asegurando que nadie se quede atrás por falta de acceso a ayuda inmediata.</p>
+        <h3>Mejora en la motivación y la capacidad de aprendizaje</h3>
+        <p>La IA en la educación es una gran aliada a la hora de potenciar la motivación e incrementar la capacidad de aprendizaje
+        de los estudiantes, aportando nuevas herramientas de gamificación y entornos de aprendizaje interactivos a las aulas.
+        Los sistemas gamificados basados en IA pueden adaptar los desafíos al nivel exacto de cada estudiante, manteniendo el
+        equilibrio perfecto entre dificultad y logro que mantiene a los alumnos comprometidos y motivados.</p>
+        <h3>Análisis predictivo para mejorar los resultados</h3>
+        <p>La inteligencia artificial en la educación puede identificar patrones y tendencias en el rendimiento de los estudiantes,
+        ayudando a predecir y abordar posibles dificultades de aprendizaje antes de que se conviertan en problemas mayores. Esta
+        capacidad predictiva permite intervenciones tempranas y personalizadas, identificando a estudiantes en riesgo de quedarse
+        atrás y proporcionando el apoyo necesario en el momento adecuado.</p>
+        <h3>Accesibilidad e inclusión educativa</h3>
+        <p>La IA en la educación ofrece soluciones adaptativas que facilitan el proceso de aprendizaje a los estudiantes con necesi
+        dades especiales. Algunos ejemplos incluyen sistemas de lectura automática para personas con discapacidad visual, programas
+        de reconocimiento de voz para estudiantes con dificultades motoras o de escritura, subtítulos automáticos en tiempo real par
+        a estudiantes con discapacidad auditiva, y herramientas de traducción instantánea para estudiantes que están aprendiendo en
+        un idioma que no es su lengua materna.<br><br>Como puedes observar, la adopción de estas tecnologías no solo beneficia a los
+        estudiantes, sino que también apoya a los educadores en su misión de enseñar de manera más efectiva. Sin embargo, existe una 
+        serie de aspectos que debemos tener en cuenta antes de incorporar la IA en la educación.</p>
+
+        <h2>La Inteligencia Artificial como Recurso Educativo en el Aula</h2>
+        <h3>Artes del lenguaje: La IA como asistente de escritura, no como atajo</h3>
+        <p>Las herramientas de IA como los chatbots y los generadores de texto pueden ayudar a los estudiantes a generar ideas, revisar
+        y reflexionar, sin tener que pensar por ellos.
+        <ul type="disc">
+            <li>Compañero de repaso: Pide a los estudiantes que introduzcan un borrador en un asistente de escritura (como un chat
+            bot) y pide sugerencias para mejorar la selección de palabras o la variedad de oraciones. Enfatiza que están evaluando
+            las sugerencias, no aceptándolas ciegamente</li>
+            <li>Entrevista con personajes: Pida a los estudiantes que generen "entrevistas" de IA con personajes ficticios. Le pro
+            porcionan a la IA una descripción del personaje y le piden que interprete un rol. Esto desarrolla habilidades de inferen
+            cia y una comprensión más profunda de las motivaciones de los personajes.</li>
+            <li>Coach de vocabulario: Usa IA para crear juegos de vocabulario personalizados u oraciones contextuales. Los estudiante
+            s pueden usar una herramienta para generar oraciones originales con palabras nuevas y luego revisarlas o editarlas para
+            mejorar su precisión.</li>
+        </ul>
+        </p>
+        <h3>Matemáticas: IA para práctica, explicación y análisis de errores</h3>
+        <P>Puede utilizar la IA para apoyar la enseñanza de las matemáticas proporcionando práctica adicional, modelando pasos de
+        resolución de problemas u ofreciendo explicaciones visuales para conceptos abstractos.
+        <ul type="disc">
+            <li>Generador de problemas: Usa la IA para crear problemas de práctica personalizados, adaptados a tu unidad. Pide
+            a los estudiantes que comprueben la precisión de la IA y corrijan errores, convirtiéndolos en miniprofesores.</li>
+            <li>Tutor paso a paso: Pida a los estudiantes que usen IA para explicar cómo resolver un problema de varios pasos.
+            Luego, pregunte: "¿Se le escapó algo a la IA?". Esto fomenta la metacognición y refuerza la comprensión procedimental.
+            </li>
+        </ul>
+        </P>
+        <h3>Estudios sociales: IA para debates de políticas y charlas con figuras históricas</h3>
+        <p>Las clases de estudios sociales pueden usar IA para explorar la empatía histórica, analizar sesgos y simular debates a
+        lo largo del tiempo.
+        <ul type="disc">
+            <li>Charla histórica: Indique a una IA que hable como una figura histórica y luego pida a los estudiantes que verif
+            iquen la información. Por ejemplo, la indicación podría ser: "Imagina que eres Frederick Douglass. ¿Cómo responderías
+            a este editorial?".</li>
+            <li>Detector de sesgos: Usa la IA para reformular una noticia en diferentes tonos (neutral, sesgado, sensacionalis
+            ta). Luego, pide a los estudiantes que comparen las versiones para practicar la alfabetización mediática.</li>
+        </ul>
+        </p>
+        <h3>Arte y temas creativos: IA para inspiración y crítica</h3>
+        <p>Los profesores de materias creativas pueden usar la IA para generar ideas, mezclar estilos o criticar trabajos de nuevas
+        formas.
+        <ul type="disc">
+            <li>Generador de arte: Los estudiantes introducen un tema o concepto (como "polinización al estilo de Van Gogh") en
+            una herramienta de imágenes con IA. Luego, crean una versión personal inspirada en el resultado de la IA, pero con su
+            propia mano e interpretación.</li>
+            <li>Mezclador de estados de ánimo musicales: Usa IA para generar melodías según el estado de ánimo o el género. Los est
+            udiantes pueden remezclarlas, criticarlas o desarrollarlas en actividades de interpretación o composición.</li>
+            <li>Crítica de diseño: Pida a los estudiantes que muestren su obra a una IA y pidan sugerencias (uso del color, simetrí
+            a, equilibrio). Luego, analicen si esas críticas son válidas y qué ve el artista humano que la IA no.</li>
+        </ul>
+        </p>
+        <h3>Idiomas extranjeros: IA para inmersión, práctica y feedback personalizado</h3>
+        <p>Las herramientas de IA pueden simular entornos lingüísticos inmersivos, proporcionar retroalimentación instantánea y ayu
+        dar a los estudiantes a explorar culturas y contextos más allá de los diálogos de los libros de texto.
+        <ul type="disc">
+            <li>Práctica conversacional: Usa herramientas de chat con IA para simular conversaciones con un hablante nativo. Los es
+            tudiantes pueden elegir temas (pedir comida, planificar un viaje, hablar de aficiones) y practicar registros informales
+            y formales.</li>
+            <li>Asesor gramatical: Pide a los estudiantes que introduzcan sus transcripciones de textos escritos o hablados en
+            la IA para una corrección gramatical instantánea. Luego, pídeles que reflexionen: ¿Por qué la IA sugirió esa correcc
+            ión? Esto refuerza las reglas gramaticales en contexto.</li>
+            <li>Inmersión cultural: Pide a la IA que genere breves escenarios culturales, como la descripción de un mercado tra
+            dicional en Madrid o un día escolar en Tokio. Los estudiantes pueden traducirlos, resumirlos o responderlos en el idio
+            ma de destino.</li>
+        </ul>
+        </p>
+
+        <h2>Herramientas de estudio</h2>
+        <h3>1. NotebookLM: investigación y síntesis de documentos</h3>
+        <p><b>NotebookLM</b> es una herramienta desarrollada por Google que permite analizar documentos académicos utilizando intel
+        igencia artificial.<br>Los estudiantes pueden subir PDFs, apuntes o materiales de clase y hacer preguntas directamente sobr
+        e ellos.<br>Esto permite:<br>•	resumir textos complejos<br>•	encontrar información específica rápidamente<br>•	conectar
+        ideas entre diferentes documentos<br>•	generar preguntas de estudio<br>Cuando se utiliza con materiales académicos fiables,
+        NotebookLM se convierte en una <b>herramienta poderosa para investigar y sintetizar información. </b><a href="https://notebo
+        oklm.google.com/">notebooklm.google.com</a></p>
+        <h2>2. ChatGPT: comprender conceptos difíciles</h2>
+        <p>ChatGPT es probablemente la herramienta de IA más utilizada por estudiantes en todo el mundo.<br>Su principal utilidad
+        educativa no es generar trabajos completos, <b>sino explicar conceptos complejos de forma clara.</b><br>Por ejemplo, puede
+        ayudar a:<br>•	explicar teorías académicas<br>•	simplificar conceptos difíciles<br>•	generar ejemplos prácticos<br>•     
+        practicar preguntas de examen<br>Utilizado correctamente, funciona como un <b>asistente de aprendizaje</b>, no como sustituto del
+        estudio.<a href="https://chatgpt.com/">chat.openai.com</a></p>
+        <h2>3. Grammarly: mejorar la escritura académica</h2>
+        <p>La escritura sigue siendo una habilidad fundamental en la educación superior.<br>Grammarly utiliza inteligencia artificial
+        para revisar textos y ayudar a los estudiantes a mejorar su redacción.<br>Permite:<br>•	detectar errores gramaticales<br>•	
+        mejorar la claridad de los textos <br>•	ajustar el tono académico<br>•	revisar la estructura de los trabajos<br>Es especialmente
+        útil para estudiantes que escriben ensayos, informes o trabajos de investigación. <a href="https://www.grammarly.com/">gram
+        marly.com</a></p>
+        <h3>4. ChatPDF: analizar artículos y papers académicos</h3>
+        <p>Los estudiantes universitarios trabajan constantemente con documentos PDF: artículos científicos, capítulos de libros o
+        investigaciones.<br>ChatPDF permite interactuar con estos documentos mediante preguntas.<br>Los estudiantes pueden:<br>•	
+        localizar información específica dentro de un paper<br>•	generar resúmenes de capítulos<br>•	identificar conceptos clave<br>
+        •	comprender textos complejos más rápido<br>Esto reduce significativamente el tiempo necesario para analizar documentos académicos.
+        <a href="https://www.chatpdf.com/es">chatpdf.com</a></p>
+        <h3>5. Notion AI: organizar el conocimiento</h3>
+        <p>Uno de los mayores problemas de los estudiantes es la organización de la información.<br>Notion AI permite crear sistema
+        s personales de conocimiento donde los estudiantes pueden:<br>•	organizar apuntes por asignaturas<br>•	crear bases de dat
+        os de conceptos<br>•	generar resúmenes automáticos<br>•	conectar ideas entre diferentes materias<br>Muchos estudiantes
+        utilizan Notion como un segundo cerebro digital para gestionar su aprendizaje. <a href="https://www.notion.com/"></a></p>
+        <h3>6. Quizlet: mejorar la memoria con repetición espaciada</h3>
+        <p>Quizlet es una de las plataformas más utilizadas para crear tarjetas de estudio (flashcards).<br>Ahora incorpora inteli
+        gencia artificial para generar preguntas automáticamente a partir de apuntes o textos.<br> Permite a los estudiantes:<br>•	
+        crear tarjetas de memoria rápidamente<br>•	practicar con ejercicios adaptativos<br>•	estudiar con repetición espaciada<br>
+        •	evaluar su progreso<br><a href="https://quizlet.com/es">quizlet.com</a></p>
+        <h3>7. Khanmigo: tutor personalizado basado en IA</h3>
+        <p>Khanmigo es el asistente de inteligencia artificial de Khan Academy, diseñado específicamente para educación.<br>Funciona
+        como un tutor virtual que ayuda a los estudiantes a:<br>•	resolver problemas paso a paso<br>•	practicar ejercicios<br>•	
+        recibir explicaciones alternativas<br>•	reforzar conceptos difíciles<br>A diferencia de otros asistentes de IA, Khanmigo
+        <br>está diseñado específicamente para apoyar el aprendizaje sin sustituir el pensamiento del estudiante.<br><a href="khanacademy.org/khan-labs">khanacademy.org/khan-labs</a>
+        khanacademy.org/khan-labs</p>
+        <h3>Para Analizar fuentes confiables</h3>
+        <img src="media/1.jpg">
+        <h3>Para aprender Idiomas</h3>
+        <img src="media/2.png">
+        <h3>Redactar y mejorar documentos</h3>
+        <img src="media/3.png">
+        <h3>Organizar estudios y apuntes</h3>
+        <img src="media/4.png">
+
+        <h2>Referencias</h2>
+        <p>Recomendaciones para el uso educativo de la inteligencia artificial Generativa en la UNAM. (2025).<i>Grupo Académico de
+        Inteligencia Artificial Generativa En Educación UNAM.</i><br><br>
+        <i>IA en la Educación: Ventajas, Desventajas y Cómo Integrarla.</i> (2026, 22 abril). <a href="https://www.cegos.es/insights
+        /blog/transformacion-digital/ia-educacion">https://www.cegos.es/insights/blog/transformacion-digital/ia-educacion</a><br><br>
+        Kamel, A., & Kamel, A. (2025, 20 octubre).<i>Como usar la IA para estudiar y obtener mejores resultados</i>. Ventana | EBC.
+        <a href="https://www.ebc.mx/ventana/como-usar-la-ia-para-estudiar-y-obtener-mejores-resultados/">https://www.ebc.mx/venta
+        na/como-usar-la-ia-para-estudiar-y-obtener-mejores-resultados/</a><br><br>
+        Leonard, S. (2026, 21 abril). <i>18 maneras en que los educadores pueden usar la IA en el aula.</i> TAO. <a href="https
+        ://www.taotesting.com/es/blog/18-ways-educators-can-use-ai-in-the-classroom/">https://www.taotesting.com/es/blog/18-ways-ed
+        ucators-can-use-ai-in-the-classroom/</a><br><br>
+        <i>El uso de la IA en la educación: decidir el futuro que queremos.</i> (2024, 17 mayo).<a href="https://www.unesco.org/es/
+        articles/el-uso-de-la-ia-en-la-educacion-decidir-el-futuro-que-queremos">https://www.unesco.org/es/articles/el-uso-de-la-ia
+        -en-la-educacion-decidir-el-futuro-que-queremos</a><br><br>
+        Rabal, M. (2026, 27 marzo). Inteligencia artificial para estudiantes: 7 herramientas clave. <i>Burando Kizuna.</i> <a href
+        ="www.burandokizuna.com/es/blog/inteligencia-artificial-para-estudiantes">//www.burandokizuna.com/es/blog/inteligencia-art
+        ificial-para-estudiantes</a><br><br>
+        <i>IA en la Educación: Ventajas, Desventajas y Cómo Integrarla.</i> (2026b, abril 22). <a href="//www.cegos.es/insights/blo
+        g/transformacion-digital/ia-educacion">//www.cegos.es/insights/blog/transformacion-digital/ia-educacion</a><br><br>
+        Es, G. (2025, 1 septiembre). Las 30 mejores herramientas de IA educativa para estudiantes.<i>Gostudent.</i> <a href="https://
+        www.gostudent.org/es-es/blog/las-30-mejores-herramientas-de-ia-educativa-para-estudiantes">https://www.gostudent.org/es-es/bl
+        og/las-30-mejores-herramientas-de-ia-educativa-para-estudiantes</a>
+        </p>
+
+
+    </div>
+    
+    <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+</div>
+
+<footer class="footer">
+    <p>© 2026 IA Responsable | Promoviendo el uso ético de la inteligencia artificial</p>
+    <p style="margin-top: 0.5rem;">
+
+    </p>
+</footer>
+
+
+</body>
+</html>
